@@ -49,29 +49,23 @@ qplot(date, land_avg_temp, data=decemberGlobalTemperatures)
 #of temperature change for June and December
 #JUNE
 g <- ggplot(juneGlobalTemperatures, aes(date,land_avg_temp))
-g <- g + labs(title="June Global Average Land Temperature 1753 to 2015") +
+g <- g + labs(title="June Temperatures") +
   labs(x = "Date") + labs(y = "Average Land Temperature")
 g <- g + geom_smooth(size=1, linetype=1,method = "lm", se=FALSE)
 g <- g + theme_bw(base_family ="Times")
 g <- g + geom_line()
 #DECEMBER
 g2 <- ggplot(decemberGlobalTemperatures, aes(date,land_avg_temp))
-g2 <- g2 + labs(title="December Global Average Land Temperature 1752 to 2015") +
+g2 <- g2 + labs(title="December Temperatures") +
   labs(x = "Date") + labs(y = "Average Land Temperature")
 g2 <- g2 + geom_smooth(size=1, linetype=1,method = "lm", se=FALSE)
 g2 <- g2 + theme_bw(base_family ="Times")
 g2 <- g2 + geom_line()
 #UNCERTAINTY
-gUncertainty <- ggplot(globalTemperatures, aes(date,land_avg_temp_uncertainty)) + geom_point
-gUncertainty <- gUncertainty + labs(title="Uncertainty of Measurements 1752 to 2015") +
-  labs(x = "Date") + labs(y = "Average Land Temperature Uncertainty")
-gUncertainty <- gUncertainty + geom_smooth(size=1, linetype=1,method = "lm", se=FALSE)
-gUncertainty <- gUncertainty + theme_bw(base_family ="Times")
-#ALL MONTHS TOGETHER
-gAllMonths <- ggplot(globalTemperatures, aes(date,land_avg_temp)) + geom_point(color=month)
-gAllMonths <- gAllMonths + labs(title="Uncertainty of Measurements 1752 to 2015") +
-  labs(x = "Date") + labs(y = "Average Land Temperature")
-gAllMonths <- gAllMonths + geom_smooth(size=1, linetype=1,method = "lm", se=FALSE)
-gAllMonths <- gAllMonths + theme_bw(base_family ="Times")
+g3 <- qplot(date, land_avg_temp_uncertainty, data=globalTemperatures)
+g4 <- qplot(date, land_avg_temp, data=globalTemperatures,color=month)
 
-grid.arrange(g,g2,gUncertainty,gAllMonths,ncol=2)
+pdf(file="Global_Temperature_Plots.pdf")
+grid.arrange(g,g2,g3,g4,ncol=2)
+
+dev.off()
